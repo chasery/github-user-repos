@@ -1,14 +1,19 @@
 function createRepoElement(name, url) {
   // Returns the markup for our repo
+  console.log(name + " " + url);
   return `<li class="repo"><span class="repo__title">${name}</span><a href="${url}">View Repo</a></li>`;
 }
-function displayRepos(json) {
+function displayRepos(responseJson) {
   // Display results of the API request
   //$("#jsResults").empty();
-  let reposString = json.map((repo) => {
-    const { name, html_url } = repo;
-    createRepoElement(name, html_url);
-  });
+  let reposString = responseJson
+    .map((repo) => {
+      const { name, html_url } = repo;
+      createRepoElement(name, html_url);
+    })
+    .join("");
+  console.log(typeof reposString);
+  console.log(reposString);
   $("#jsResults").html(reposString);
 }
 
@@ -29,7 +34,7 @@ function getUserRepos(username) {
       }
       throw new Error(response.statusText);
     })
-    .then((json) => displayRepos(json))
+    .then((responseJson) => displayRepos(responseJson))
     .catch((err) => {
       console.log(`Something went wrong: ${err.message}`);
     });
