@@ -1,20 +1,21 @@
 function createRepoElement(name, url) {
   // Returns the markup for our repo
-  console.log(name + " " + url);
-  return `<li class="repo"><span class="repo__title">${name}</span><a href="${url}">View Repo</a></li>`;
+  return `<li class="repo"><span class="repo__name">${name}</span><a class="repo__anchor" href="${url}" target="_blank">${url}</a></li>`;
 }
-function displayRepos(responseJson) {
+function displayRepos(responseJson, username) {
   // Display results of the API request
-  //$("#jsResults").empty();
+  $("#jsResults").empty();
+  console.log(responseJson);
   let reposString = responseJson
     .map((repo) => {
       const { name, html_url } = repo;
-      createRepoElement(name, html_url);
+      return createRepoElement(name, html_url);
     })
     .join("");
-  console.log(typeof reposString);
-  console.log(reposString);
-  $("#jsResults").html(reposString);
+  $("#jsResults").html(`
+    <h2>Repo Results for '${username}'</h2>
+    <ul class="repos">${reposString}</ul>
+    `);
 }
 
 function formEndpointString(username) {
@@ -34,7 +35,7 @@ function getUserRepos(username) {
       }
       throw new Error(response.statusText);
     })
-    .then((responseJson) => displayRepos(responseJson))
+    .then((responseJson) => displayRepos(responseJson, username))
     .catch((err) => {
       console.log(`Something went wrong: ${err.message}`);
     });
@@ -44,8 +45,9 @@ function watchForm(e) {
   // Watch our form for submission and prevent default
   $("#jsGetRepos").submit((e) => {
     e.preventDefault();
-    const username = $("#jsUsername").val();
-    getUserRepos(username);
+    const input = $("#jsUsername");
+    getUserRepos(input.val());
+    input.val("");
   });
 }
 $(watchForm);
