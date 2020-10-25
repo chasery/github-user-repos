@@ -1,6 +1,15 @@
-function displayResults(json) {
-  // Display our results of the API request
-  console.log(json);
+function createRepoElement(name, url) {
+  // Returns the markup for our repo
+  return `<li class="repo"><span class="repo__title">${name}</span><a href="${url}">View Repo</a></li>`;
+}
+function displayRepos(json) {
+  // Display results of the API request
+  //$("#jsResults").empty();
+  let reposString = json.map((repo) => {
+    const { name, html_url } = repo;
+    createRepoElement(name, html_url);
+  });
+  $("#jsResults").html(reposString);
 }
 
 function formEndpointString(username) {
@@ -20,7 +29,7 @@ function getUserRepos(username) {
       }
       throw new Error(response.statusText);
     })
-    .then((json) => displayResults(json))
+    .then((json) => displayRepos(json))
     .catch((err) => {
       console.log(`Something went wrong: ${err.message}`);
     });
