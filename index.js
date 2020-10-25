@@ -5,7 +5,6 @@ function createRepoElement(name, url) {
 function displayRepos(responseJson, username) {
   // Display results of the API request
   $("#jsResults").empty();
-  console.log(responseJson);
   let reposString = responseJson
     .map((repo) => {
       const { name, html_url } = repo;
@@ -22,6 +21,12 @@ function formEndpointString(username) {
   return `/users/${username}/repos`;
 }
 
+function displayError(message) {
+  $("#jsResults").html(`
+    <p class="error">${message}</p>
+  `);
+}
+
 function getUserRepos(username) {
   // Use fetch to get our results
   const baseUrl = "https://api.github.com";
@@ -33,11 +38,15 @@ function getUserRepos(username) {
       if (response.ok) {
         return response.json();
       }
-      throw new Error(response.statusText);
+      throw response.status;
     })
     .then((responseJson) => displayRepos(responseJson, username))
     .catch((err) => {
-      console.log(`Something went wrong: ${err.message}`);
+      if (err === 404) {
+        displayError(`We couldn't find the user with the name '${username}.'`);
+      } else {
+        displayError("It seems something is wrong, please try again later!");
+      }
     });
 }
 
