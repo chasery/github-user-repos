@@ -1,0 +1,61 @@
+body {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 1rem;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+@media all and (min-width: 64rem) {
+  .form,
+  .results {
+    width: 50rem;
+  }
+}
+
+.form__fields {
+  display: flex;
+  margin-top: 1rem;
+  padding-left: 0;
+}
+
+.form__fields li {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  list-style: none;
+}
+.form__fields li + li {
+  margin-left: 1rem;
+}
+
+.repos {
+  padding-left: 0;
+  list-style: none;
+}
+
+.repo {
+  display: flex;
+  flex-direction: column;
+  padding: 0.75rem 0;
+  border-bottom: 0.0625rem solid lightgrey;
+}
+
+.repo__name {
+  flex-grow: 1;
+}
+
+@media all and (min-width: 64rem) {
+  .repo {
+    flex-direction: row;
+  }
+}
+
+.error {
+  color: crimson;
+}

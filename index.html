@@ -12,6 +12,25 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <form id="jsGetRepos" class="form">
+      <div class="form__header">
+        <h1>GitHub User Repos</h1>
+        <p>
+          Search for a given user's repos on GitHub.com using their provided
+          API.
+        </p>
+      </div>
+      <ul class="form__fields">
+        <li>
+          <label for="username">Username</label>
+          <input id="jsUsername" type="text" required />
+        </li>
+        <li>
+          <button type="submit">Get Repos</button>
+        </li>
+      </ul>
+    </form>
+    <div id="jsResults" class="results"></div>
     <script
       src="https://code.jquery.com/jquery-3.3.1.js"
       integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
